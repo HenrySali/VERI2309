@@ -1,0 +1,241 @@
+{
+  "equipments": [
+    {
+      "id": "CENTRIF-001",
+      "marca": "Eppendorf",
+      "modelo": "5424",
+      "tipo": "Centrífuga",
+      "descripcion": "Centrífuga de microvolumen de laboratorio",
+      "parametros_tecnicos": {
+        "velocidad_maxima_rpm": 14800,
+        "aceleracion_maxima_g": 20200,
+        "capacidad_maxima_ml": 2,
+        "temperatura_operacion": "-10 a 40°C",
+        "voltaje": "100-240V",
+        "potencia_watts": 75,
+        "tiempo_aceleracion_segundos": 3,
+        "tiempo_deceleracion_segundos": 5,
+        "ruido_decibeles": 65,
+        "peso_kg": 2.5
+      },
+      "funcionamiento": {
+        "preparacion": "Colocar rotor en posición. Cargar muestras en tubos de microcentrífuga.",
+        "operacion": "Seleccionar velocidad deseada. Presionar START. El equipo se acelerará gradualmente.",
+        "seguridad": "No abrir tapa durante funcionamiento. Esperar a que se complete el proceso.",
+        "mantenimiento": "Limpiar después de cada uso con alcohol 70%. Verificar sello de goma mensualmente."
+      },
+      "rango_velocidad": "500 - 14800 RPM",
+      "aplicaciones": ["Microbiología", "Bioquímica", "Investigación", "Diagnóstico"],
+      "norma": "IEC 61010-2-024",
+      "año_lanzamiento": 2018
+    },
+    {
+      "id": "CENTRIF-002",
+      "marca": "Hettich",
+      "modelo": "Universal 320R",
+      "tipo": "Centrífuga",
+      "descripcion": "Centrífuga refrigerada de laboratorio de uso general",
+      "parametros_tecnicos": {
+        "velocidad_maxima_rpm": 3400,
+        "aceleracion_maxima_g": 3270,
+        "capacidad_maxima_ml": 1500,
+        "temperatura_operacion": "4 a 40°C",
+        "voltaje": "230V",
+        "potencia_watts": 250,
+        "tiempo_aceleracion_segundos": 10,
+        "tiempo_deceleracion_segundos": 8,
+        "ruido_decibeles": 72,
+        "peso_kg": 35
+      },
+      "funcionamiento": {
+        "preparacion": "Encender 15 minutos antes de usar para estabilizar temperatura. Distribuir carga uniformemente.",
+        "operacion": "Introducir rotor. Fijar tapa. Seleccionar velocidad y temperatura. Iniciar centrifugación.",
+        "seguridad": "Verificar equilibrio de muestras antes de iniciar. Usar rotor apropiado para velocidad.",
+        "mantenimiento": "Revisar filtro de aire mensualmente. Limpiar cámara refrigerada cada 3 meses."
+      },
+      "rango_velocidad": "400 - 3400 RPM",
+      "aplicaciones": ["Hematología", "Serología", "Bioquímica clínica", "Investigación"],
+      "norma": "EN 61010-1",
+      "año_lanzamiento": 2015
+    },
+    {
+      "id": "ANALIZADOR-001",
+      "marca": "Sysmex",
+      "modelo": "KX-21",
+      "tipo": "Analizador de Hematología",
+      "descripcion": "Analizador hematológico automatizado de 3 parámetros",
+      "parametros_tecnicos": {
+        "velocidad_procesamiento_muestras_hora": 60,
+        "capacidad_carga_muestras": 30,
+        "volumen_muestra_ul": 20,
+        "voltaje": "100-240V",
+        "potencia_watts": 150,
+        "temperatura_operacion": "18 a 28°C",
+        "humedad_relativa_porcentaje": "45 a 75",
+        "presion_operacion_kpa": 86,
+        "peso_kg": 28
+      },
+      "funcionamiento": {
+        "preparacion": "Calibrar usando muestra de control. Verificar nivel de reactivos.",
+        "operacion": "Cargar muestras. Sistema procesa automáticamente. Resultados en pantalla en ~45 segundos.",
+        "seguridad": "Usar PPE durante operación. Seguir protocolo de bioseguridad.",
+        "mantenimiento": "Limpieza diaria de cámara de muestreo. Cambio de reactivos según vida útil."
+      },
+      "parametros_medidos": ["Hemoglobina", "Hematocrito", "Glóbulos blancos"],
+      "precisión_porcentaje": 2.5,
+      "aplicaciones": ["Hematología", "Diagnóstico clínico"],
+      "norma": "ISO 13485",
+      "año_lanzamiento": 2016
+    },
+    {
+      "id": "ESPECTROFOTOMETRO-001",
+      "marca": "Thermo Scientific",
+      "modelo": "Genesys 150",
+      "tipo": "Espectrofotómetro",
+      "descripcion": "Espectrofotómetro UV-Visible de doble haz",
+      "parametros_tecnicos": {
+        "rango_longitud_onda_nm": "190 a 1100",
+        "exactitud_longitud_onda_nm": "±0.5",
+        "rango_transmitancia_porcentaje": "0 a 200",
+        "repetibilidad_absorbancia": "±0.004",
+        "voltaje": "100-240V",
+        "potencia_watts": 120,
+        "temperatura_operacion": "15 a 35°C",
+        "peso_kg": 18
+      },
+      "funcionamiento": {
+        "preparacion": "Encender y dejar estabilizar 15 minutos. Insertar cubetas de referencia.",
+        "operacion": "Seleccionar longitud de onda. Introducir muestra. Presionar MEASURE.",
+        "seguridad": "No mirar directamente la fuente de luz. Usar cubetas de cuarzo para UV.",
+        "mantenimiento": "Limpiar cubetas con agua destilada. Verificar cero diariamente."
+      },
+      "aplicaciones": ["Análisis químico", "Control de calidad", "Investigación"],
+      "norma": "ISO 9060",
+      "año_lanzamiento": 2017
+    },
+    {
+      "id": "INCUBADORA-001",
+      "marca": "Memmert",
+      "modelo": "UN450",
+      "tipo": "Incubadora",
+      "descripcion": "Incubadora de laboratorio de aire seco",
+      "parametros_tecnicos": {
+        "volumen_litros": 450,
+        "temperatura_minima": 30,
+        "temperatura_maxima": 300,
+        "uniformidad_temperatura": "±2%",
+        "estabilidad_temperatura": "±1%",
+        "voltaje": "230V",
+        "potencia_watts": 2200,
+        "tiempo_calentamiento_minutos": 25,
+        "peso_kg": 65
+      },
+      "funcionamiento": {
+        "preparacion": "Verificar contenedor vacío. Encender. Fijar temperatura deseada.",
+        "operacion": "Esperar a alcanzar temperatura. Introducir muestras. Monitorear regularmente.",
+        "seguridad": "Usar guantes al manipular. Cuidado con puertas abiertas en temperaturas altas.",
+        "mantenimiento": "Limpiar interior mensualmente. Verificar sello de puerta anualmente."
+      },
+      "rango_temperatura": "30 a 300°C",
+      "aplicaciones": ["Microbiología", "Biología molecular", "Investigación"],
+      "norma": "DIN EN 60068-2-32",
+      "año_lanzamiento": 2014
+    },
+    {
+      "id": "REFRIGERADOR-001",
+      "marca": "Dometic",
+      "modelo": "MiniCool DS 600",
+      "tipo": "Refrigerador de Laboratorio",
+      "descripcion": "Refrigerador biomédico para almacenamiento de muestras",
+      "parametros_tecnicos": {
+        "capacidad_litros": 600,
+        "temperatura_minima": 2,
+        "temperatura_maxima": 8,
+        "estabilidad_temperatura": "±1°C",
+        "voltaje": "220-240V",
+        "potencia_watts": 350,
+        "consumo_energia_kwh_dia": 2.5,
+        "peso_kg": 120
+      },
+      "funcionamiento": {
+        "preparacion": "Instalar en lugar ventilado. Dejar reposar 4 horas antes de encender.",
+        "operacion": "Fijar temperatura a 4°C. Permitir estabilización (2 horas). Almacenar muestras.",
+        "seguridad": "No desconectar bruscamente. Mantener flujo de aire alrededor.",
+        "mantenimiento": "Descongelar cada 6 meses. Limpiar serpentín anualmente."
+      },
+      "rango_temperatura": "2 a 8°C",
+      "aplicaciones": ["Almacenamiento de sueros", "Reactivos", "Muestras biológicas"],
+      "norma": "ISO 18752",
+      "año_lanzamiento": 2016
+    },
+    {
+      "id": "VORTEX-001",
+      "marca": "IKA",
+      "modelo": "Vortex Genius 3",
+      "tipo": "Vortex Mezclador",
+      "descripcion": "Mezclador de vórtex de laboratorio",
+      "parametros_tecnicos": {
+        "velocidad_maxima_rpm": 2500,
+        "rango_velocidad_rpm": "500 a 2500",
+        "voltaje": "100-240V",
+        "potencia_watts": 15,
+        "tiempo_aceleracion_segundos": 0.5,
+        "temperatura_operacion": "5 a 40°C",
+        "peso_kg": 0.85
+      },
+      "funcionamiento": {
+        "preparacion": "Colocar tubo en la placa de agitación. Ajustar altura si es necesario.",
+        "operacion": "Seleccionar velocidad deseada. Presionar START. El vórtex comenzará inmediatamente.",
+        "seguridad": "No tener dedos cerca durante operación. Usar tubos de tamaño compatible.",
+        "mantenimiento": "Limpiar placa de agitación después de cada uso."
+      },
+      "aplicaciones": ["Mezcla de muestras", "Suspensión de células", "Homogenización"],
+      "norma": "CE",
+      "año_lanzamiento": 2018
+    },
+    {
+      "id": "MICROTOMO-001",
+      "marca": "Leica",
+      "modelo": "RM2125 RT",
+      "tipo": "Micrótomo",
+      "descripcion": "Micrótomo rotatorio semiautomático",
+      "parametros_tecnicos": {
+        "rango_espesor_corte_micrometros": "1 a 25",
+        "avance_manual_micrometros": "1",
+        "velocidad_corte_maxima": 180,
+        "compatible_muestras": "Parafina",
+        "voltaje": "100-240V",
+        "potencia_watts": 30,
+        "peso_kg": 25
+      },
+      "funcionamiento": {
+        "preparacion": "Montar muestra en bloque portamuestras. Insertar en portamuestras del equipo.",
+        "operacion": "Fijar espesor de corte. Presionar pedal o botón para realizar cortes.",
+        "seguridad": "EXTREMO CUIDADO: Cuchilla muy afilada. Usar protección de manos.",
+        "mantenimiento": "Cambiar cuchilla después de 100-200 cortes. Lubricar mecanismo mensualmente."
+      },
+      "aplicaciones": ["Histopatología", "Investigación de tejidos"],
+      "norma": "IEC 61010-1",
+      "año_lanzamiento": 2013
+    }
+  ],
+  "marcas": [
+    "Eppendorf",
+    "Hettich",
+    "Sysmex",
+    "Thermo Scientific",
+    "Memmert",
+    "Dometic",
+    "IKA",
+    "Leica"
+  ],
+  "tipos": [
+    "Centrífuga",
+    "Analizador de Hematología",
+    "Espectrofotómetro",
+    "Incubadora",
+    "Refrigerador de Laboratorio",
+    "Vortex Mezclador",
+    "Micrótomo"
+  ]
+}
