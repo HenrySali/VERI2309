@@ -422,21 +422,333 @@
             }
         }
 
-        @media (max-width: 600px) {
-            .selector-grid {
-                grid-template-columns: 1fr;
+        @media (max-width: 1024px) {
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .specs-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                max-width: 100%;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.3rem;
+            }
+
+            .header {
+                margin-bottom: 15px;
+            }
+
+            .subtitle {
+                font-size: 0.85rem;
+            }
+
+            .header-links {
+                margin-bottom: 15px;
+            }
+
+            .header-links a {
+                margin: 0 8px;
+                font-size: 0.85rem;
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .selector-card {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .selector-card h2 {
+                font-size: 1rem;
+            }
+
+            .input-group select {
+                padding: 10px;
+                font-size: 0.95rem;
+            }
+
+            .btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
             }
 
             .info-grid {
                 grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .info-box {
+                padding: 12px;
+            }
+
+            .info-label {
+                font-size: 0.75rem;
+            }
+
+            .info-value {
+                font-size: 1rem;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .spec-box {
+                padding: 10px;
+            }
+
+            .photo-gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .photo-item img {
+                height: 150px;
             }
 
             .certificate-info {
                 grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .report-container {
+                padding: 15px;
+            }
+
+            .report-title {
+                font-size: 1.4rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+
+            .procedure-box {
+                padding: 10px;
+            }
+
+            .procedure-title {
+                font-size: 0.95rem;
+            }
+
+            .procedure-text {
+                font-size: 0.9rem;
+            }
+
+            .applications {
+                gap: 6px;
+            }
+
+            .app-tag {
+                padding: 4px 10px;
+                font-size: 0.8rem;
+            }
+
+            .print-section {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .btn-print {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 8px;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+                margin-bottom: 5px;
+            }
+
+            .subtitle {
+                font-size: 0.8rem;
+                margin-bottom: 10px;
+            }
+
+            .header-links a {
+                font-size: 0.8rem;
+            }
+
+            .selector-card {
+                padding: 12px;
+                margin-bottom: 12px;
+                border-radius: 12px;
+            }
+
+            .selector-card h2 {
+                font-size: 0.95rem;
+                margin-bottom: 12px;
+            }
+
+            .input-group label {
+                font-size: 0.85rem;
+            }
+
+            .input-group select {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+
+            .report-container {
+                padding: 12px;
+                margin-top: 15px;
+            }
+
+            .report-header {
+                padding-bottom: 12px;
+                margin-bottom: 15px;
+            }
+
+            .report-title {
+                font-size: 1.2rem;
+                margin-bottom: 5px;
+            }
+
+            .report-subtitle {
+                font-size: 0.8rem;
+            }
+
+            .section-title {
+                font-size: 1rem;
+                margin: 12px 0 10px 0;
+            }
+
+            .info-grid {
+                gap: 10px;
+            }
+
+            .info-box {
+                padding: 10px;
+                border-left-width: 3px;
+            }
+
+            .info-label {
+                font-size: 0.7rem;
+            }
+
+            .info-value {
+                font-size: 0.95rem;
             }
 
             .photo-gallery {
                 grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .photo-item {
+                border-radius: 8px;
+            }
+
+            .photo-item img {
+                height: 120px;
+            }
+
+            .photo-label {
+                padding: 6px;
+                font-size: 0.75rem;
+            }
+
+            .specs-grid {
+                gap: 8px;
+            }
+
+            .spec-box {
+                padding: 8px;
+            }
+
+            .spec-label {
+                font-size: 0.7rem;
+            }
+
+            .spec-value {
+                font-size: 0.85rem;
+            }
+
+            .certificate-section {
+                padding: 12px;
+                margin-bottom: 15px;
+            }
+
+            .certificate-info {
+                gap: 10px;
+            }
+
+            .certificate-box {
+                padding: 10px;
+            }
+
+            .certificate-label {
+                font-size: 0.75rem;
+            }
+
+            .certificate-value {
+                font-size: 0.95rem;
+            }
+
+            .procedure-box {
+                padding: 8px;
+                margin-bottom: 8px;
+            }
+
+            .procedure-title {
+                font-size: 0.9rem;
+                margin-bottom: 6px;
+            }
+
+            .procedure-text {
+                font-size: 0.85rem;
+                line-height: 1.4;
+            }
+
+            .applications {
+                gap: 5px;
+            }
+
+            .app-tag {
+                padding: 4px 8px;
+                font-size: 0.75rem;
+            }
+
+            .empty-state {
+                padding: 30px 10px;
+            }
+
+            .empty-icon {
+                font-size: 2rem;
+            }
+
+            .print-section {
+                flex-direction: column;
+                gap: 6px;
+                margin-top: 15px;
+                padding-top: 15px;
+            }
+
+            .btn-print {
+                width: 100%;
+                padding: 10px 16px;
             }
         }
     </style>
