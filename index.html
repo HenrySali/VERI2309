@@ -929,6 +929,27 @@
                     <div class="icon">📝</div>
                     <div class="label">Registrar Serie</div>
                 </div>
+                <div id="selectLocationBtn" class="action-btn">
+                    <div class="icon">📍</div>
+                    <div class="label">Ubicación Fija</div>
+                </div>
+            </div>
+
+            <!-- Panel de Ubicación Fija -->
+            <div id="fixedLocationPanel" class="hidden" style="margin-top:20px; padding:16px; background:rgba(0,217,255,0.1); border:2px solid rgba(0,217,255,0.3); border-radius:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <label style="color:#00d9ff; font-weight:600;">📍 Ubicación Fija Activa</label>
+                    <button id="clearLocationBtn" class="btn btn-secondary" style="padding:6px 12px; font-size:0.8rem;">✕ Limpiar</button>
+                </div>
+                <div class="input-group">
+                    <select id="fixedLocationSelect" style="text-transform: uppercase;">
+                        <option value="">-- Seleccionar Ubicación --</option>
+                    </select>
+                </div>
+                <div id="fixedLocationDisplay" style="margin-top:12px; padding:12px; background:rgba(0,255,136,0.1); border:1px solid rgba(0,255,136,0.3); border-radius:8px; text-align:center; display:none;">
+                    <div style="color:#888; font-size:0.8rem; margin-bottom:4px;">UBICACIÓN ACTIVA</div>
+                    <div id="fixedLocationValue" style="color:#00ff88; font-size:1.2rem; font-weight:700;"></div>
+                </div>
             </div>
 
             <div id="reader" class="qr-reader hidden"></div>

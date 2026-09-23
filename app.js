@@ -413,6 +413,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentMatchIndex = -1;
     let editCameraStream = null;
 
+    // === VARIABLES PARA UBICACIÓN FIJA ===
+    let fixedLocationEnabled = false;
+    let fixedLocationValue = '';
+
+    // Elementos de Ubicación Fija
+    const selectLocationBtn = document.getElementById('selectLocationBtn');
+    const fixedLocationPanel = document.getElementById('fixedLocationPanel');
+    const fixedLocationSelect = document.getElementById('fixedLocationSelect');
+    const fixedLocationDisplay = document.getElementById('fixedLocationDisplay');
+    const fixedLocationValue_Display = document.getElementById('fixedLocationValue');
+    const clearLocationBtn = document.getElementById('clearLocationBtn');
+
     // Elementos de Registro
     const registerSerieBtn = document.getElementById('registerSerieBtn');
     const registerModal = document.getElementById('registerModal');
@@ -758,7 +770,10 @@ document.addEventListener('DOMContentLoaded', () => {
         loadObservacionesForRow(row);
 
         // Cargar ubicación actual
-        if (locKey && row[locKey]) {
+        if (fixedLocationEnabled && fixedLocationValue) {
+            // Si hay ubicación fija, usarla
+            editLocationSelect.value = fixedLocationValue;
+        } else if (locKey && row[locKey]) {
             editLocationSelect.value = row[locKey];
         } else {
             editLocationSelect.value = '';
@@ -1059,6 +1074,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.warn("No se encontró columna de ubicación. Headers:", globalHeaders);
             regLocationSelect.innerHTML = '<option value="">-- No se encontró columna ubicación --</option>';
             editLocationSelect.innerHTML = '<option value="">-- No se encontró columna ubicación --</option>';
+            fixedLocationSelect.innerHTML = '<option value="">-- No se encontró columna ubicación --</option>';
             return;
         }
 
@@ -1077,6 +1093,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         regLocationSelect.innerHTML = options;
         editLocationSelect.innerHTML = options;
+        fixedLocationSelect.innerHTML = options;
     }
 
     // --- REGISTRO SERIE ---
@@ -1087,7 +1104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         resetCameraUI();
         regSerieInput.value = '';
-        regLocationSelect.value = '';
+        regLocationSelect.value = fixedLocationEnabled ? fixedLocationValue : '';
         regObservaciones.value = '';
         regFeedback.classList.add('hidden');
         registerModal.classList.remove('hidden');
@@ -1098,6 +1115,59 @@ document.addEventListener('DOMContentLoaded', () => {
         stopCamera();
         registerModal.classList.add('hidden');
     });
+
+    // === UBICACIÓN FIJA ===
+    selectLocationBtn.addEventListener('click', () => {
+        if (globalDataRaw.length === 0) {
+            alert("⚠️ No hay datos cargados. Por favor, carga un archivo Excel primero.");
+            return;
+        }
+        fixedLocationPanel.classList.remove('hidden');
+    });
+
+    fixedLocationSelect.addEventListener('change', (e) => {
+        const selectedValue = e.target.value.trim();
+        if (selectedValue) {
+            fixedLocationEnabled = true;
+            fixedLocationValue = selectedValue;
+            fixedLocationValue_Display.textContent = selectedValue;
+            fixedLocationDisplay.style.display = 'block';
+        } else {
+            fixedLocationEnabled = false;
+            fixedLocationValue = '';
+            fixedLocationDisplay.style.display = 'none';
+        }
+        // Guardar en localStorage
+        localStorage.setItem('fixedLocation', JSON.stringify({
+            enabled: fixedLocationEnabled,
+            value: fixedLocationValue
+        }));
+    });
+
+    clearLocationBtn.addEventListener('click', () => {
+        fixedLocationEnabled = false;
+        fixedLocationValue = '';
+        fixedLocationSelect.value = '';
+        fixedLocationDisplay.style.display = 'none';
+        localStorage.removeItem('fixedLocation');
+    });
+
+    // Cargar ubicación fija del localStorage al iniciar
+    const savedLocation = localStorage.getItem('fixedLocation');
+    if (savedLocation) {
+        try {
+            const loc = JSON.parse(savedLocation);
+            if (loc.enabled && loc.value) {
+                fixedLocationEnabled = loc.enabled;
+                fixedLocationValue = loc.value;
+                fixedLocationSelect.value = loc.value;
+                fixedLocationValue_Display.textContent = loc.value;
+                fixedLocationDisplay.style.display = 'block';
+            }
+        } catch (e) {
+            console.warn('Error al cargar ubicación guardada', e);
+        }
+    }
 
     // --- VERIFICAR POR SERIE ---
     verifySerieBtn.addEventListener('click', () => {
@@ -1383,8 +1453,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     confirmRegBtn.addEventListener('click', () => {
         const serieVal = regSerieInput.value.trim().toUpperCase();
-        const locVal = regLocationSelect.value;
+        let locVal = regLocationSelect.value;
         const obsVal = regObservaciones.value.trim();
+
+        // Si hay ubicación fija habilitada, usarla
+        if (fixedLocationEnabled && fixedLocationValue) {
+            locVal = fixedLocationValue;
+        }
 
         if (!serieVal) {
             alert("Ingresa un número de serie.");
@@ -1626,7 +1701,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             resetCameraUI();
             regSerieInput.value = scannedValue;
-            regLocationSelect.value = '';
+            regLocationSelect.value = fixedLocationEnabled ? fixedLocationValue : '';
             regObservaciones.value = '';
             regFeedback.classList.add('hidden');
             registerModal.classList.remove('hidden');
@@ -1638,8 +1713,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentMatchIndex === -1) return;
 
         const newDate = dateInput.value;
-        const newLoc = editLocationSelect.value;
+        let newLoc = editLocationSelect.value;
         const newSerie = editSerieInput.value.trim().toUpperCase();
+
+        // Si hay ubicación fija, usarla
+        if (fixedLocationEnabled && fixedLocationValue) {
+            newLoc = fixedLocationValue;
+        }
 
         const targetKey = dateInput.dataset.targetKey;
         const locKey = getColumnKey('ubicacion') || getColumnKey('tecnica');
