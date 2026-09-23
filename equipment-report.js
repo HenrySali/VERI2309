@@ -477,5 +477,11 @@
         loadAllData();
     });
 
+    // === ACTUALIZAR DATOS CUANDO LA PESTAÑA SE ENFOCA ===
+    window.addEventListener('focus', () => {
+        console.log('📋 Recargando informe al enfocar...');
+        loadAllData();
+    });
+
     console.log('✅ equipment-report.js cargado');
 })();

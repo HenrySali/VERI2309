@@ -104,6 +104,84 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // === FUNCIÓN PARA CARGAR ARCHIVO AUTOMÁTICAMENTE ===
+    async function autoLoadInventory() {
+        try {
+            console.log('🔄 Intentando cargar inventario2.xlsx automáticamente...');
+            const response = await fetch('inventario2.xlsx');
+            
+            if (!response.ok) {
+                console.warn('⚠️ inventario2.xlsx no encontrado');
+                return false;
+            }
+            
+            const arrayBuffer = await response.arrayBuffer();
+            const data = new Uint8Array(arrayBuffer);
+            globalWorkbook = XLSX.read(data, { type: 'array', cellDates: true });
+
+            // Cargar TODAS las hojas
+            globalSheetNames = globalWorkbook.SheetNames;
+            globalAllSheetsData = {};
+            globalAllSheetsHeaders = {};
+
+            console.log('📋 Hojas encontradas:', globalSheetNames);
+
+            // Procesar cada hoja
+            globalSheetNames.forEach(sheetName => {
+                const worksheet = globalWorkbook.Sheets[sheetName];
+                let rawSheetData = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+
+                if (rawSheetData.length > 0) {
+                    const allKeys = Object.keys(rawSheetData[0]);
+                    const validHeaders = allKeys.filter(h => !h.startsWith('__EMPTY'));
+                    globalAllSheetsHeaders[sheetName] = validHeaders;
+
+                    const cleanedData = rawSheetData.filter(row => {
+                        return validHeaders.some(h => {
+                            const val = row[h];
+                            return val !== "" && val !== null && val !== undefined;
+                        });
+                    });
+
+                    globalAllSheetsData[sheetName] = cleanedData;
+                } else {
+                    globalAllSheetsHeaders[sheetName] = [];
+                    globalAllSheetsData[sheetName] = [];
+                }
+            });
+
+            // Seleccionar primera hoja
+            globalCurrentSheetName = globalSheetNames[0];
+            globalFirstSheetName = globalCurrentSheetName;
+            globalDataRaw = globalAllSheetsData[globalCurrentSheetName];
+            globalHeaders = globalAllSheetsHeaders[globalCurrentSheetName];
+
+            console.log("✅ Inventario cargado:", globalCurrentSheetName, "- Registros:", globalDataRaw.length);
+
+            // Guardar en IndexedDB
+            await saveExcelToDB();
+
+            // Actualizar UI
+            populateSheetSelector(globalSheetNames, globalCurrentSheetName);
+            renderTable();
+            populateLocations();
+
+            fileLabel.textContent = `✅ inventario2.xlsx (${globalDataRaw.length} registros)`;
+            fileLabel.style.color = '#00ff88';
+
+            resultsArea.classList.remove('hidden');
+            exportBtn.disabled = false;
+            registerSerieBtn.classList.remove('disabled');
+            verifySerieBtn.classList.remove('disabled');
+            clearExcelBtn.classList.remove('hidden');
+
+            return true;
+        } catch (error) {
+            console.error('❌ Error cargando inventario2.xlsx:', error);
+            return false;
+        }
+    }
+
     // Comprimir imagen antes de guardar
     function compressImage(dataUrl, maxSize = 100000) {
         return new Promise((resolve) => {
@@ -379,6 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('fileInput');
     const fileLabel = document.getElementById('fileLabel');
     const processBtn = document.getElementById('processBtn');
+    const reloadInventoryBtn = document.getElementById('reloadInventoryBtn');
     const loadingDiv = document.getElementById('loading');
     const resultsArea = document.getElementById('resultsArea');
     const exportBtn = document.getElementById('exportBtn');
@@ -577,6 +656,23 @@ document.addEventListener('DOMContentLoaded', () => {
             processBtn.disabled = false;
         };
         reader.readAsArrayBuffer(file);
+    });
+
+    // --- RECARGAR INVENTARIO ---
+    reloadInventoryBtn.addEventListener('click', async () => {
+        loadingDiv.classList.remove('hidden');
+        reloadInventoryBtn.disabled = true;
+        
+        const success = await autoLoadInventory();
+        
+        loadingDiv.classList.add('hidden');
+        reloadInventoryBtn.disabled = false;
+        
+        if (success) {
+            alert('✅ inventario2.xlsx recargado exitosamente');
+        } else {
+            alert('❌ No se pudo recargar inventario2.xlsx');
+        }
     });
 
     // --- LIMPIAR DATOS GUARDADOS ---
@@ -2853,4 +2949,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(err => {
         console.error('Error inicializando DB de estaciones:', err);
     });
+
+    // === CARGA AUTOMÁTICA DE INVENTARIO ===
+    // Intenta cargar inventario2.xlsx al abrir la página
+    setTimeout(async () => {
+        console.log('⏳ Intentando carga automática de inventario2.xlsx...');
+        try {
+            await initImageDB();
+            const existing = await loadExcelFromDB();
+            
+            if (!existing || !existing.data || existing.data.length === 0) {
+                console.log('📥 IndexedDB vacío, cargando inventario2.xlsx automáticamente...');
+                const success = await autoLoadInventory();
+                if (success) {
+                    console.log('✅ Inventario2.xlsx cargado automáticamente');
+                } else {
+                    console.log('⚠️ inventario2.xlsx no encontrado, usuario debe cargar archivo manualmente');
+                }
+            } else {
+                console.log('✅ Datos ya existen en IndexedDB, usando datos guardados');
+                // Restaurar datos del IndexedDB
+                globalAllSheetsData = existing.allSheetsData || {};
+                globalAllSheetsHeaders = existing.allSheetsHeaders || {};
+                globalSheetNames = existing.sheetNames || [];
+                globalCurrentSheetName = existing.currentSheetName || globalSheetNames[0];
+                
+                if (globalCurrentSheetName) {
+                    globalDataRaw = globalAllSheetsData[globalCurrentSheetName] || [];
+                    globalHeaders = globalAllSheetsHeaders[globalCurrentSheetName] || [];
+                    globalFirstSheetName = globalCurrentSheetName;
+                    
+                    // Actualizar UI
+                    populateSheetSelector(globalSheetNames, globalCurrentSheetName);
+                    renderTable();
+                    populateLocations();
+                    
+                    fileLabel.textContent = `✅ ${existing.fileName || 'Inventario'} (${globalDataRaw.length} registros)`;
+                    fileLabel.style.color = '#00ff88';
+                    
+                    resultsArea.classList.remove('hidden');
+                    exportBtn.disabled = false;
+                    registerSerieBtn.classList.remove('disabled');
+                    verifySerieBtn.classList.remove('disabled');
+                    clearExcelBtn.classList.remove('hidden');
+                }
+            }
+        } catch (error) {
+            console.error('Error en carga automática:', error);
+        }
+    }, 500);
 })();

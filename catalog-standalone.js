@@ -436,5 +436,11 @@
         loadAllData();
     });
 
+    // === ACTUALIZAR DATOS CUANDO LA PESTAÑA SE ENFOCA ===
+    window.addEventListener('focus', () => {
+        console.log('📂 Recargando catálogo al enfocar...');
+        loadAllData();
+    });
+
     console.log('✅ Catalog-standalone.js cargado');
 })();
