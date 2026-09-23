@@ -1541,7 +1541,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let finalValue = decodedText;
         if (decodedText.includes('%2F') || decodedText.includes('%2f')) {
             const parts = decodedText.split(/%2F|%2f/);
-            finalValue = parts[parts.length - 1].replace(/%/g, '-');
+            // Decodificar la última parte correctamente
+            finalValue = decodeURIComponent(parts[parts.length - 1]);
         }
 
         stopScanning();
