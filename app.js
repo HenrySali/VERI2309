@@ -1132,16 +1132,20 @@ document.addEventListener('DOMContentLoaded', () => {
             fixedLocationValue = selectedValue;
             fixedLocationValue_Display.textContent = selectedValue;
             fixedLocationDisplay.style.display = 'block';
+            // Guardar en localStorage
+            localStorage.setItem('fixedLocation', JSON.stringify({
+                enabled: fixedLocationEnabled,
+                value: fixedLocationValue
+            }));
+            // Cerrar panel después de 2 segundos
+            setTimeout(() => {
+                fixedLocationPanel.classList.add('hidden');
+            }, 2000);
         } else {
             fixedLocationEnabled = false;
             fixedLocationValue = '';
             fixedLocationDisplay.style.display = 'none';
         }
-        // Guardar en localStorage
-        localStorage.setItem('fixedLocation', JSON.stringify({
-            enabled: fixedLocationEnabled,
-            value: fixedLocationValue
-        }));
     });
 
     clearLocationBtn.addEventListener('click', () => {
@@ -1150,6 +1154,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fixedLocationSelect.value = '';
         fixedLocationDisplay.style.display = 'none';
         localStorage.removeItem('fixedLocation');
+        // Cerrar panel
+        fixedLocationPanel.classList.add('hidden');
     });
 
     // Cargar ubicación fija del localStorage al iniciar
