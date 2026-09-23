@@ -411,16 +411,20 @@
         }
     }
 
-    // === DESCARGAR PDF (usando html2pdf si está disponible, sino usar print) ===
+    // === DESCARGAR PDF (usando html2pdf o fallback a print) ===
     window.downloadPDF = function() {
-        // Intentar usar html2pdf si está disponible
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
-        script.onload = () => {
+        const selectedId = equipmentSelector.value;
+        const equipo = allEquipments.find(e => e.id === selectedId);
+        
+        if (!equipo) {
+            alert('Por favor, selecciona un equipo primero');
+            return;
+        }
+        
+        // Intentar usar html2pdf si está disponible, sino usar print
+        if (typeof html2pdf !== 'undefined') {
+            // html2pdf ya está cargado
             const element = document.getElementById('reportContainer');
-            const selectedId = equipmentSelector.value;
-            const equipo = allEquipments.find(e => e.id === selectedId);
-            
             const opt = {
                 margin: 10,
                 filename: `Informe_${equipo.id}_${new Date().toISOString().split('T')[0]}.pdf`,
@@ -430,13 +434,31 @@
             };
             
             html2pdf().set(opt).from(element).save();
-        };
-        script.onerror = () => {
-            // Fallback: usar print del navegador
-            console.warn('html2pdf no disponible, usando print del navegador');
-            window.print();
-        };
-        document.head.appendChild(script);
+        } else {
+            // Cargar html2pdf dinámicamente
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+            
+            script.onload = () => {
+                const element = document.getElementById('reportContainer');
+                const opt = {
+                    margin: 10,
+                    filename: `Informe_${equipo.id}_${new Date().toISOString().split('T')[0]}.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+                };
+                
+                html2pdf().set(opt).from(element).save();
+            };
+            
+            script.onerror = () => {
+                console.warn('⚠️ html2pdf no disponible, usando print del navegador');
+                window.print();
+            };
+            
+            document.head.appendChild(script);
+        }
     };
 
     // === EVENT LISTENERS ===
