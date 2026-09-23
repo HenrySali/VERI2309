@@ -1,7 +1,74 @@
 # Registro de Cambios - VERI2309
 
 ## Estado Actual Funcionando
-**Commit:** `e672222` - Add link to equipment-report.html in catalog navigation
+**Commit:** `71de54b` - Auto-load inventario2.xlsx, add reload button, sync IndexedDB changes across pages
+
+---
+
+## Cambios Realizados
+
+### 6. ✅ Carga Automática de inventario2.xlsx y Sincronización de Cambios
+**Commit:** `71de54b` - Auto-load inventario2.xlsx, add reload button, sync IndexedDB changes across pages
+
+**Descripción:**
+- El archivo `inventario2.xlsx` se carga automáticamente al abrir la app
+- Si IndexedDB ya tiene datos guardados, los restaura
+- Si está vacío, descarga `inventario2.xlsx` automáticamente
+- Botón para recargar/actualizar el archivo manualmente
+- Todos los cambios se sincronizan automáticamente entre páginas
+
+**Características Implementadas:**
+
+#### 1. Carga Automática
+- Función `autoLoadInventory()` descarga `inventario2.xlsx` del servidor
+- Se ejecuta al iniciar si IndexedDB está vacío
+- Timeout de 500ms para permitir que DOM se inicialice
+- Si existe datos en IndexedDB, los restaura automáticamente
+
+#### 2. Botón de Recarga
+- Nuevo botón: `🔄 Recargar inventario2.xlsx`
+- Permite actualizar el archivo en cualquier momento
+- Muestra estado (cargando/completado)
+- Actualiza automáticamente la UI
+
+#### 3. Sincronización IndexedDB
+- `findOrRegister()`: Guarda cuando marca como verificado
+- `updateBtn`: Guarda cambios de fecha, ubicación, serie, observaciones
+- `confirmRegBtn`: Guarda nuevo equipo registrado
+- Todos usan `await saveExcelToDB()` para persistencia
+
+#### 4. Refresco en Tiempo Real
+- `catalog.html`: Event listener `focus` recarga datos cuando vuelves a la pestaña
+- `equipment-report.html`: Event listener `focus` recarga datos cuando vuelves a la pestaña
+- Garantiza siempre ver cambios más recientes
+
+**Flujo de Uso:**
+
+```
+1. Usuario abre app (index.html)
+   ↓
+2. Si IndexedDB vacío → descarga inventario2.xlsx automáticamente
+   Si hay datos guardados → restaura del IndexedDB
+   ↓
+3. Usuario realiza cambios:
+   - Escanea QR (verifica)
+   - Registra nuevo equipo
+   - Actualiza datos (fecha, ubicación, etc)
+   ↓
+4. Cambios se guardan automáticamente en IndexedDB
+   ↓
+5. Usuario abre catalog.html o equipment-report.html
+   ↓
+6. Al volver a index.html (tab focus) → datos se refrescan
+   Al volver a catalog.html → datos se refrescan
+   Al volver a equipment-report.html → datos se refrescan
+```
+
+**Archivos Modificados:**
+- `app.js` - Función `autoLoadInventory()`, event listener del botón de recarga, carga automática al inicio
+- `index.html` - Nuevo botón `🔄 Recargar inventario2.xlsx`
+- `catalog-standalone.js` - Event listener `focus` para refresco en tiempo real
+- `equipment-report.js` - Event listener `focus` para refresco en tiempo real
 
 ---
 
@@ -333,6 +400,9 @@ setTimeout(() => {
 | 7 | 2fd85d1 | Catalog integrates Excel from IndexedDB |
 | 8 | **b320d01** | Add equipment-report.js and link from index.html |
 | 9 | **e672222** | Add link to equipment-report.html in catalog navigation |
+| 10 | **917d9f9** | Update CAMBIOS.md with equipment-report features |
+| 11 | **cb47d32** | Improve PDF export and add comprehensive user guide |
+| 12 | **71de54b** | Auto-load inventario2.xlsx, add reload button, sync IndexedDB changes across pages |
 
 ---
 
